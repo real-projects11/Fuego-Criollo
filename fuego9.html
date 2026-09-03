@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fuego Criollo — Parrilla Premium</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Outfit:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #000000;
+    --cream: #f4ece1;
+    --ember: #ff5a2b;
+    --smoke: #a89a8a;
+    --silver: #e6e4df;
+    --ink-rgb: 0, 0, 0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Outfit', sans-serif;
+    background: var(--ink);
+    color: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* === HERO SECTION === */
+  .hero {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 100dvh;
+    overflow: hidden;
+    z-index: 1;
+  }
+
+  .hero-video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 38%;
+    transform: translate(-50%, -50%);
+  }
+
+  .hero-scrim {
+    display: none;
+  }
+
+  .hero-vignette-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 250px;
+    background: linear-gradient(to bottom, 
+      rgba(0, 0, 0, 0.95) 0%, 
+      rgba(0, 0, 0, 0.6) 45%, 
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-vignette-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, 
+      rgba(0, 0, 0, 1) 0%, 
+      rgba(0, 0, 0, 0.9) 20%, 
+      rgba(0, 0, 0, 0.5) 50%, 
+      rgba(0, 0, 0, 0) 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-nav {
+    position: absolute;
+    top: 18px;
+    left: 16px;
+    right: 16px;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 999px;
+    background: rgba(23, 19, 15, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .nav-side {
+    display: flex;
+    flex: 1; 
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  .nav-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 3vw, 24px);
+    flex-shrink: 0;
+  }
+
+  .nav-link {
+    color: var(--silver);
+    text-decoration: none;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(0.62rem, 2.3vw, 0.74rem);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    opacity: 0.85;
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+
+  .nav-link:hover { opacity: 1; color: #ffffff; }
+
+  .nav-logo {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    font-size: clamp(0.66rem, 2.8vw, 0.8rem);
+    line-height: 1.15;
+    letter-spacing: 0.08em;
+    color: #ffffff;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  .nav-divider {
+    width: 1px;
+    height: 26px;
+    background: rgba(230, 228, 223, 0.35);
+  }
+
+  @media (min-width: 900px) {
+    .hero-nav { top: 28px; left: 40px; right: 40px; padding: 10px 34px; }
+    .nav-link { font-size: 0.8rem; }
+    .nav-divider { height: 34px; }
+    .nav-logo { font-size: 1.15rem; }
+  }
+
+  .hero-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+    padding: 22px 20px 45px;
+    z-index: 2;
+  }
+
+  .brand {
+    font-family: 'Anton', sans-serif;
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: 0.02em;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+  }
+
+  .tagline {
+    margin-top: 12px;
+    font-size: clamp(0.8rem, 2.5vw, 1rem);
+    color: var(--silver);
+    font-weight: 300;
+    letter-spacing: 0.03em;
+  }
+
+  .cta {
+    margin-top: 24px;
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    padding: 16px 24px;
+    background: #ffffff;
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: 4px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  @media (min-width: 900px) {
+    .hero-content { padding: 40px 60px 70px; }
+    .brand { font-size: clamp(3rem, 5vw, 4.5rem); }
+    .cta { width: auto; padding: 18px 40px; font-size: 0.9rem; }
+  }
+
+  .cta:hover {
+    background: var(--cream);
+    transform: translateY(-2px);
+  }
+
+  /* === CONTENIDO PRINCIPAL (Diseño Compacto / Referencias) === */
+  .main-wrapper {
+    position: relative;
+    z-index: 5;
+    background-color: var(--ink);
+    background-image: url("data:image/svg+xml,%3Csvg width='400' height='400' viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 200c50-50 100 50 150 0s100-50 150 0 50 50 100 0m-400 50c50-50 100 50 150 0s100-50 150 0 50 50 100 0m-400-100c50-50 100 50 150 0s100-50 150 0 50 50 100 0m-400 150c50-50 100 50 150 0s100-50 150 0 50 50 100 0m-400-200c50-50 100 50 150 0s100-50 150 0 50 50 100 0' fill='none' stroke='%23ffffff' stroke-width='0.7' stroke-opacity='0.05'/%3E%3C/svg%3E");
+    background-size: 500px;
+  }
+
+  .editorial-section {
+    max-width: 750px;
+    margin: 0 auto;
+    padding: 90px 20px 30px;
+  }
+
+  /* Títulos de sección más chicos, limpios y modernos */
+  .editorial-header {
+    text-align: center;
+    margin-bottom: 45px;
+  }
+
+  .section-icon {
+    width: 28px;
+    height: 28px;
+    margin: 0 auto 12px auto;
+    fill: var(--ember);
+    display: block;
+    opacity: 0.9;
+  }
+
+  .editorial-header h2 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.3em;
+    color: var(--smoke);
+    text-transform: uppercase;
+  }
+
+  .editorial-header h2 span {
+    display: block;
+    font-weight: 600;
+    color: #ffffff;
+    font-size: 1.4rem;
+    letter-spacing: 0.15em;
+    margin-top: 6px;
+  }
+
+  /* Divisor fino entre secciones */
+  .section-divider {
+    max-width: 120px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.15);
+    margin: 0 auto;
+  }
+
+  /* Estructura del Menú Compacta */
+  .menu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .menu-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .menu-row:last-child {
+    border-bottom: none;
+  }
+
+  .menu-row-main {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .menu-name {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+
+  .menu-price {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--cream);
+    white-space: nowrap;
+    padding-left: 15px;
+  }
+
+  .menu-desc {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.8rem;
+    color: var(--smoke);
+    font-weight: 300;
+    line-height: 1.5;
+    max-width: 90%;
+    letter-spacing: 0.02em;
+  }
+
+  /* === SECCIÓN MAPA Y UBICACIÓN === */
+  .map-container {
+    max-width: 750px;
+    margin: 60px auto 0;
+    padding: 0 20px;
+  }
+
+  .map-wrapper {
+    width: 100%;
+    height: 320px;
+    border-radius: 4px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .map-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+    filter: invert(100%) hue-rotate(180deg) brightness(85%) contrast(85%) grayscale(20%);
+  }
+
+  /* === FORMULARIO DE CONTACTO BREVE === */
+  .contact-section {
+    max-width: 550px;
+    margin: 80px auto 0;
+    padding: 0 20px 40px;
+  }
+
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 30px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: left;
+  }
+
+  .form-group label {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    color: var(--smoke);
+    text-transform: uppercase;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 3px;
+    padding: 12px 14px;
+    color: var(--cream);
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--ember);
+  }
+
+  .form-textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+
+  .form-submit {
+    margin-top: 8px;
+    width: 100%;
+    padding: 14px;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .form-submit:hover {
+    background: var(--cream);
+    transform: translateY(-1px);
+  }
+
+  /* === FOOTER === */
+  .site-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 60px 20px 40px;
+    text-align: center;
+    background: transparent;
+    margin-top: 60px;
+  }
+
+  .footer-logo {
+    font-family: 'Outfit', sans-serif;
+    font-weight: 600;
+    font-size: 1.3rem;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--smoke);
+    font-weight: 300;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 30px;
+  }
+
+  .footer-info span {
+    color: var(--cream);
+  }
+
+  .copyright {
+    font-size: 0.7rem;
+    color: rgba(168, 154, 138, 0.5);
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<section class="hero" id="inicio">
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="fuego-criollo.mp4" type="video/mp4">
+  </video>
+  <div class="hero-scrim"></div>
+  <div class="hero-vignette-top"></div>
+  <div class="hero-vignette-bottom"></div>
+  
+  <nav class="hero-nav">
+    <div class="nav-side">
+      <a href="#inicio" class="nav-link">Inicio</a>
+      <a href="#menu" class="nav-link">Menú</a>
+    </div>
+    <div class="nav-center">
+      <span class="nav-divider"></span>
+      <span class="nav-logo">FUEGO<br>CRIOLLO</span>
+      <span class="nav-divider"></span>
+    </div>
+    <div class="nav-side">
+      <a href="#mapa" class="nav-link">Mapa</a>
+      <a href="#contacto" class="nav-link">Contacto</a>
+    </div>
+  </nav>
+
+  <div class="hero-content">
+    <h1 class="brand">A PURO<br>FUEGO</h1>
+    <p class="tagline">El sabor de las brasas, en cada bocado</p>
+    <a href="#menu" class="cta">Ver la carta</a>
+  </div>
+</section>
+
+<main class="main-wrapper">
+  
+  <!-- Sección Menú (Cortes) -->
+  <section id="menu" class="editorial-section">
+    <div class="editorial-header">
+      <!-- Icono SVG de fuego/llama -->
+      <svg class="section-icon" viewBox="0 0 24 24"><path d="M17.5 12c0 3.03-2.47 5.5-5.5 5.5s-5.5-2.47-5.5-5.5c0-2.3 1.36-4.28 3.32-5.18-.33 1.15.14 2.45 1.18 3.1 1.05.65 2.42.37 3.13-.65.25.68.37 1.4.37 2.13zm-5.5-9.5c0-.28.22-.5.5-.5s.5.22.5.5v1.08c1.94.39 3.5 1.95 3.89 3.89h1.08c.28 0 .5.22.5.5s-.22.5-.5.5h-1.08c-.39 1.94-1.95 3.5-3.89 3.89v1.08c0 .28-.22.5-.5.5s-.5-.22-.5-.5v-1.08c-1.94-.39-3.5-1.95-3.89-3.89H7.03c-.28 0-.5-.22-.5-.5s.22-.5.5-.5h1.08C8.5 5.45 10.06 3.89 12 3.5V2.5z"/></svg>
+      <h2>Selección</h2>
+      <h2><span>Nuestros Cortes</span></h2>
+    </div>
+
+    <div class="menu-list">
+      <div class="menu-row">
+        <div class="menu-row-main">
+          <span class="menu-name">Asado de Tira Especial</span>
+          <span class="menu-price">$14.500</span>
+        </div>
+        <p class="menu-desc">Corte clásico de 5 costillas, asado a leña de quebracho durante 4 horas para máxima terneza.</p>
+      </div>
+
+      <div class="menu-row">
+        <div class="menu-row-main">
+          <span class="menu-name">Ojo de Bife Premium</span>
+          <span class="menu-price">$18.900</span>
+        </div>
+        <p class="menu-desc">400 gramos de pura terneza. Acompañado de papas rústicas al romero y ajo confitado.</p>
+      </div>
+
+      <div class="menu-row">
+        <div class="menu-row-main">
+          <span class="menu-name">Entraña Fina Trenzada</span>
+          <span class="menu-price">$19.200</span>
+        </div>
+        <p class="menu-desc">El corte más sabroso de la parrilla, servido en su punto justo con chimichurri casero ahumado.</p>
+      </div>
+
+      <div class="menu-row">
+        <div class="menu-row-main">
+          <span class="menu-name">Matambrito a la Pizza</span>
+          <span class="menu-price">$15.500</span>
+        </div>
+        <p class="menu-desc">Tiernizado a la parrilla, cubierto de salsa de tomate casera, mozzarella fundida y orégano fresco.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Sección Entradas y Detalles -->
+  <section class="editorial-section">
+    <div class="editorial-header">
+      <!-- Icono SVG de cubiertos / copa -->
+      <svg class="section-icon" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.21 1.79 4 4 4v9h2v-9c2.21 0 4-1.79 4-4V2h-2v7zm7-7v10h2v10h-2v-4h-2V2h2z"/></svg>
+      <h2>Para Comenzar</h2>
+      <h2><span>Entradas y Detalles</span></h2>
+    </div>
+
+    <div class="menu-list">
+      <div class="menu-row">
+        <div class="menu-row-main">
+          <span class="menu-name">Provoleta Fuego Criollo</span>
+          <span class="menu-price">$6.800</span>
+        </div>
+        <p class="menu-desc">Crujiente por fuera, fundida por dentro. Terminada con tomates asados y aceite de oliva extra virgen.</p>
+      </div>
+
+      <div class="menu-row">
+        <div class="menu-row-main">
+          <span class="menu-name">Empanadas a Cuchillo</span>
+          <span class="menu-price">$2.500</span>
+        </div>
+        <p class="menu-desc">Fritas en grasa o al horno de barro. Jugosas, respetando la receta tradicional.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Sección Mapa -->
+  <div id="mapa" class="map-container">
+    <div class="editorial-header" style="margin-bottom: 25px;">
+      <!-- Icono SVG de ubicación -->
+      <svg class="section-icon" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+      <h2>Encuéntranos</h2>
+      <h2><span>Nuestra Ubicación</span></h2>
+    </div>
+    <div class="map-wrapper">
+      <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016713578107!2d-58.38415068477038!3d-34.60373888045942!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccacfcebc1555%3A0x982f252db6da4563!2sObelisco!5e0!3m2!1ses-419!2sar!4v1698263155823!5m2!1ses-419!2sar" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+
+  <!-- Sección Formulario de Contacto Breve -->
+  <section id="contacto" class="contact-section">
+    <div class="editorial-header" style="margin-bottom: 20px;">
+      <!-- Icono SVG de mensaje / sobre -->
+      <svg class="section-icon" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+      <h2>Escríbenos</h2>
+      <h2><span>Contacto y Reservas</span></h2>
+    </div>
+    <form class="contact-form" onsubmit="event.preventDefault(); alert('¡Mensaje enviado con éxito!');">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" class="form-input" placeholder="Tu nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="telefono">Teléfono / WhatsApp</label>
+        <input type="tel" id="telefono" class="form-input" placeholder="Ej: 11 1234 5678" required>
+      </div>
+      <div class="form-group">
+        <label for="mensaje">Mensaje / Consulta</label>
+        <textarea id="mensaje" class="form-textarea" placeholder="¿Cuántas personas? ¿Fecha y horario?" required></textarea>
+      </div>
+      <button type="submit" class="form-submit">Enviar Mensaje</button>
+    </form>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-logo">FUEGO CRIOLLO</div>
+  <div class="footer-info">
+    <p>📍 <span>Av. Corrientes 1050, Buenos Aires, Argentina</span></p>
+    <p>📞 Reservas: <span>+54 11 1234-5678</span></p>
+    <p>🕒 Horarios: <span>Mar a Dom — 12:00 a 15:30 / 20:00 a 00:30</span></p>
+  </div>
+  <p class="copyright">&copy; 2026 FUEGO CRIOLLO. Todos los derechos reservados.</p>
+</footer>
+
+</body>
+</html>
